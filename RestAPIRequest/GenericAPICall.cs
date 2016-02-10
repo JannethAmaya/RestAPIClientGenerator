@@ -42,7 +42,6 @@ namespace RestAPIRequest
             }
             foreach (var key in parameters.Keys)
             {
-                //if(headers[key].GetType().ToString()==""){}
                 request.AddParameter(key, parameters[key]);
             }
             foreach (var key in queryParameters.Keys)
