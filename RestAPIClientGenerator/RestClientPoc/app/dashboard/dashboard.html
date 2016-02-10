@@ -1,0 +1,99 @@
+﻿<section id="dashboard-view" class="mainbar" data-ng-controller="dashboard as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="col-md-12">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label text-left" for="textinput">Endpoint:</label>
+
+                            <div class="col-md-9">
+                                <div class="col-md-1" style="margin-right: 20px;">
+                                    <select class="span2" name="method" id="method" ng-model="vm.endpoint.verb">
+                                        <option value="GET">GET</option>
+                                        <option value="POST">POST</option>
+                                        <option value="PUT">PUT</option>
+                                        <option value="PATCH">PATCH</option>
+                                        <option value="HEAD">HEAD</option>
+                                        <option value="DELETE">DELETE</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="apiUrl" ng-model="vm.endpoint.apiUrl" name="apiUrl" type="text" placeholder="type api endpoint here" class="form-control input-md pull-left">
+                                    <input id="methodName" ng-model="vm.endpoint.methodName" name="methodName" type="text" placeholder="method name" class="pull-right form-control input-md" style="width: 35%;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <strong class="col-md-8 control-span pull-left" style="margin-left: 110px;">Basic</strong>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label text-left" for="username">Authentication:</label>
+                            <div class="col-md-4" style="margin-left: 15px;">
+                                <input id="username" ng-model="vm.username" name="username" type="text" placeholder="username" class="form-control input-md">
+                            </div>
+                            <div class="col-md-4" style="margin-left: -140px;">
+                                <input id="password" ng-model="vm.password" name="password" type="password" placeholder="password" class="form-control input-md">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label text-left" for="headerName">Headers:</label>
+                            <div class="col-md-4" style="margin-left: 15px;">
+                                <input id="headerName" ng-model="vm.header.name" name="headerName" type="text" placeholder="name" class="form-control input-md">
+                            </div>
+                            <div class="col-md-4" style="margin-left: -140px;">
+                                <input id="headerValue" ng-model="vm.header.value" name="headerValue" type="text" placeholder="value" class="form-control input-md">
+                            </div>
+                            <div class="col-md-1" style="margin-left: -150px; padding-top: 5px;">
+                                <a class="button-primary" ng-click="vm.addHeader(vm.header)"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-repeat="header in vm.headers track by $index">
+                            <label class="col-md-4 control-label text-left" style="color: white;">Headers:</label>
+                            <div class="col-md-4" style="margin-left: 15px;">
+                                <input id="headerName" value="{{header.name}}" name="headerName" type="text" placeholder="name" class="form-control input-md">
+                            </div>
+                            <div class="col-md-4" style="margin-left: -140px;">
+                                <input id="headerValue" value="{{header.value}}" name="headerValue" type="text" placeholder="value" class="form-control input-md">
+                            </div>
+                            <div class="col-md-1" style="margin-left: -150px; padding-top: 5px;">
+                                <a class="button-primary" ng-click="vm.removeHeader($index)"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label text-left" for="parameterName">Parameters:</label>
+                            <div class="col-md-4" style="margin-left: 15px;">
+                                <input id="parameterName" ng-model="vm.parameter.name" name="parameterName" type="text" placeholder="name" class="form-control input-md">
+
+                            </div>
+                            <div class="col-md-4" style="margin-left: -140px;">
+                                <input id="parameterValue" ng-model="vm.parameter.value" name="parameterValue" type="text" placeholder="value" class="form-control input-md">
+
+                            </div>
+                            <div class="col-md-1" style="margin-left: -150px; padding-top: 5px;">
+                                <a class="button-primary" ng-click="vm.addParameter(vm.parameter)"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-repeat="parameter in vm.parameters track by $index">
+                            <label class="col-md-4 control-label text-left" style="color: white;">Headers:</label>
+                            <div class="col-md-4" style="margin-left: 15px;">
+                                <input id="parameterNameDisplay" value="{{parameter.name}}" name="parameterNameDisplay" type="text" placeholder="name" class="form-control input-md">
+                            </div>
+                            <div class="col-md-4" style="margin-left: -140px;">
+                                <input id="parameterValueDisplay" value="{{parameter.value}}" name="parameterValueDisplay" type="text" placeholder="value" class="form-control input-md">
+                            </div>
+                            <div class="col-md-1" style="margin-left: -150px; padding-top: 5px;">
+                                <a class="button-primary" ng-click="vm.removeParameter($index)"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-default" ng-click="vm.executeRequest()">Execute</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </section>
+</section>
