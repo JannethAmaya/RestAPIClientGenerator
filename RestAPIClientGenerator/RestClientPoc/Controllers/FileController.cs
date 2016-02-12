@@ -14,12 +14,12 @@ namespace RestClientPoc.Controllers
             // Create file on disk
             using (var zip = new ZipFile())
             {
-                zip.AddDirectory(Server.MapPath("~/app "));
-                zip.Save(Server.MapPath($"~/app/{fileName}"));
+                zip.AddDirectory(@"C:\Projects\GeneratedClasses");
+                zip.Save($@"C:\Projects\GeneratedClasses\{fileName}");
             }
 
             // Read bytes from disk
-            var fileBytes = System.IO.File.ReadAllBytes(Server.MapPath($"~/app/{fileName}"));
+            var fileBytes = System.IO.File.ReadAllBytes($@"C:\Projects\GeneratedClasses\{fileName}");
             
 
             // Return bytes as stream for download

@@ -1,34 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using RestSharp;
 using RestSharp.Authenticators;
 using Newtonsoft.Json;
 
 namespace RestAPIRequest
 {
-    public class GenericAPICall
+    public class GenericApiCall
     {
-        private string baseURL;
-        private IAuthenticator authenticator;
+        private readonly string _baseUrl;
+        private readonly IAuthenticator _authenticator;
 
-        public GenericAPICall(string baseURL, IAuthenticator authenticator)
+        public GenericApiCall(string baseUrl, IAuthenticator authenticator)
         {
-            this.baseURL = baseURL;
-            this.authenticator = authenticator;
+            _baseUrl = baseUrl;
+            _authenticator = authenticator;
         }
-        public GenericAPICall(string baseURL, string username, string password)
+        public GenericApiCall(string baseUrl, string username, string password)
         {
-            this.baseURL = baseURL;
-            authenticator = new RestSharp.Authenticators.HttpBasicAuthenticator(username, password);
+            _baseUrl = baseUrl;
+            _authenticator = new HttpBasicAuthenticator(username, password);
         }
-        public string Request(RestSharp.Method method, string endPoint, Dictionary<string,object> headers, Dictionary<string, object> parameters, Dictionary<string, object> queryParameters, string body) 
+        public string Request(Method method, string endPoint, Dictionary<string,object> headers, Dictionary<string, object> parameters, Dictionary<string, object> queryParameters, string body) 
         {
-            RestClient client = new RestClient(baseURL);
-            RestRequest request = new RestRequest(endPoint, method);
-            client.Authenticator = authenticator;
+            var client = new RestClient(_baseUrl);
+            var request = new RestRequest(endPoint, method);
+            client.Authenticator = _authenticator;
             foreach (var key in headers.Keys)
             { 
                 if(headers[key].GetType().ToString().StartsWith("System.Collections.Generics.List"))
