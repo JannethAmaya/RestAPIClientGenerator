@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using Ionic.Zip;
 
 namespace RestClientPoc.Controllers
 {
@@ -13,7 +9,21 @@ namespace RestClientPoc.Controllers
         [System.Web.Http.HttpGet]
         public FileResult Download()
         {
-           return null;
+            const string fileName = "ClassProject.zip";
+
+            // Create file on disk
+            using (var zip = new ZipFile())
+            {
+                zip.AddDirectory(Server.MapPath("~/app "));
+                zip.Save(Server.MapPath($"~/app/{fileName}"));
+            }
+
+            // Read bytes from disk
+            var fileBytes = System.IO.File.ReadAllBytes(Server.MapPath($"~/app/{fileName}"));
+            
+
+            // Return bytes as stream for download
+            return File(fileBytes, "application/zip", fileName);
         }
     }
 }
