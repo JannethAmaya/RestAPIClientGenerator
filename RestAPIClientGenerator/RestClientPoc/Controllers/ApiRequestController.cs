@@ -148,7 +148,7 @@ namespace RestClientPoc.Controllers
                 sb.AppendLine("    var APICall = new GenericAPICall(baseUrl, null);");
             }
             sb.AppendLine("var json = APICall.Request(method, endPoint, headers, parameters, queryParameters, \"\");");
-            sb.AppendLine(String.Format("    return JsonConvert.DeserializeObject<{0}>(json);",responseType));
+            sb.AppendLine(String.Format("    return JsonConvert.DeserializeObject<{0}>(json);", mainClassName));
             sb.AppendLine("}");
 
             return sb.ToString();
