@@ -87,29 +87,34 @@ namespace RestClientPoc.Controllers
             var sbParameters = new StringBuilder();
             var sbQueryParameters = new StringBuilder();
             bool first = true;
-            foreach (var key in headers.Keys)
+            if(headers!=null)
             {
-                if (!first)
+                foreach (var key in headers.Keys)
                 {
-                    sb.Append(", ");
+                    if (!first)
+                    {
+                        sb.Append(", ");
+                    }
+                    sb.AppendFormat(" object {0}", key);
+                    sbHeaders.AppendLine(String.Format("headers.Add(\"{0}\", {0});", key));
                 }
-                sb.AppendFormat(" object {0}", key);
-                sbHeaders.AppendLine(String.Format("headers.Add(\"{0}\", {0});", key));
             }
-
-            first = true;
-            foreach (var key in parameters.Keys)
+            if(parameters!=null)
             {
-                if (!first)
+                first = true;
+                foreach (var key in parameters.Keys)
                 {
-                    sb.Append(", ");
+                    if (!first)
+                    {
+                        sb.Append(", ");
+                    }
+                    sb.AppendFormat(" object {0}", key);
+                    sbParameters.AppendLine(String.Format("parameters.Add(\"{0}\", {0});", key));
                 }
-                sb.AppendFormat(" object {0}", key);
-                sbParameters.AppendLine(String.Format("parameters.Add(\"{0}\", {0});", key));
             }
-            first = true;
-            if(queryParameters != null)
+            if(queryParameters!=null)
             {
+                first = true;
                 foreach (var key in queryParameters.Keys)
                 {
                     if (!first)
@@ -120,7 +125,6 @@ namespace RestClientPoc.Controllers
                     sbQueryParameters.AppendLine(String.Format("queryParameters.Add(\"{0}\", {0});", key));
                 }
             }
-           
             sb.Append(")");
             sb.AppendLine("{");
             sb.AppendLine(String.Format("    string baseUrl=\"{0}\";", baseURL));
@@ -144,7 +148,7 @@ namespace RestClientPoc.Controllers
                 sb.AppendLine("    var APICall = new GenericAPICall(baseUrl, null);");
             }
             sb.AppendLine("var json = APICall.Request(method, endPoint, headers, parameters, queryParameters, \"\");");
-            sb.AppendLine("    return result;");
+            sb.AppendLine(String.Format("    return JsonConvert.DeserializeObject<{0}>(json);",responseType));
             sb.AppendLine("}");
 
             return sb.ToString();
