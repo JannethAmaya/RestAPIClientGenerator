@@ -46,7 +46,8 @@
             var request =
                 {
                     verb: vm.verb,
-                    endpoint: vm.endpoint.apiUrl,
+                    apiUrl: vm.apiUrl,
+                    methodName : vm.methodName,
                     apiKey: vm.endpoint.apiKey,
                     parameters: vm.parameters,
                     headers: vm.headers,

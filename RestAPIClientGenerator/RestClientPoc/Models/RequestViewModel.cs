@@ -7,7 +7,9 @@ namespace RestClientPoc.Models
     {
         public RestAPIRequest.GenericApiCall.HttpVerbs Verb;
 
-        public string Endpoint { get; set; }
+        public string ApiUrl { get; set; }
+
+        public string MethodName { get; set; }
 
         public string ApiKey { get; set; }
 
