@@ -57,6 +57,11 @@ namespace Xamasoft.JsonClassGenerator
             }
             else
             {
+                System.IO.DirectoryInfo directory = new DirectoryInfo(TargetFolder);
+                foreach (FileInfo file in directory.GetFiles())
+                {
+                    file.Delete();
+                }
                 Directory.Delete(TargetFolder);
                 Directory.CreateDirectory(TargetFolder);
             }
