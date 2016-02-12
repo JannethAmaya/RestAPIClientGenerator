@@ -57,7 +57,7 @@ namespace Xamasoft.JsonClassGenerator
             }
             else
             {
-                Directory.Delete(TargetFolder);
+                Directory.Delete(TargetFolder, true);
                 Directory.CreateDirectory(TargetFolder);
             }
                 
