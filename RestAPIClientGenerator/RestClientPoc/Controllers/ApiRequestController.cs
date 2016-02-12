@@ -1,12 +1,14 @@
 ﻿using RestClientPoc.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using RestAPIRequest;
 using Xamasoft.JsonClassGenerator;
 using Xamasoft.JsonClassGenerator.CodeWriters;
 using System.Text;
 using System.IO;
+using WebGrease.Css.Extensions;
 
 namespace RestClientPoc.Controllers
 {
@@ -39,8 +41,12 @@ namespace RestClientPoc.Controllers
                     parameters.Add(p.Name, p.Value);
                 }
             });
+
+            var s = url.Query.Replace("?","").Split('&');
+            var queryParameters = s.Select(x => x.Split('=')).ToDictionary<string[], string, object>(value => value[0], value => value[1]);
+
             var result = apiCall.Request(request.Verb, String.Format("{0}{1}", url.LocalPath,url.Query), headers, parameters, null, string.Empty);
-            var classMethod = Request(request.Verb, String.Format("{0}://{1}",url.Scheme,url.Host), String.Format("{0}{1}", url.LocalPath,url.Query), headers, parameters, null, string.Empty, request.RestClient.MethodName, request.RestClient.Namespace, request.RestClient.ResultClassName, request.Password != null || request.UserName != null, request.UserName, request.Password);
+            var classMethod = Request(request.Verb, String.Format("{0}://{1}",url.Scheme,url.Host), String.Format("{0}{1}", url.LocalPath,url.Query), headers, parameters, queryParameters, string.Empty, request.RestClient.MethodName, request.RestClient.Namespace, request.RestClient.ResultClassName, request.Password != null || request.UserName != null, request.UserName, request.Password);
             var classGenericCall = CreateGenericAPICall(request.RestClient.Namespace);
             
             return Ok(result);

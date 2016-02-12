@@ -64,9 +64,7 @@ namespace Xamasoft.JsonClassGenerator
                 }
                 Directory.CreateDirectory(TargetFolder);
             }
-                
-
-
+            
             JObject[] examples;
             var example = Example.StartsWith("HTTP/") ? Example.Substring(Example.IndexOf("\r\n\r\n")) : Example;
             using (var sr = new StringReader(example))
