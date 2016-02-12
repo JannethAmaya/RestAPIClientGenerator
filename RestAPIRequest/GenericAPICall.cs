@@ -15,42 +15,52 @@ namespace RestAPIRequest
             _baseUrl = baseUrl;
             _authenticator = authenticator;
         }
+
         public GenericApiCall(string baseUrl, string username, string password)
         {
             _baseUrl = baseUrl;
             _authenticator = new HttpBasicAuthenticator(username, password);
         }
+
         public string Request(Method method, string endPoint, Dictionary<string,object> headers, Dictionary<string, object> parameters, Dictionary<string, object> queryParameters, string body) 
         {
             var client = new RestClient(_baseUrl);
             var request = new RestRequest(endPoint, method);
             client.Authenticator = _authenticator;
-            foreach (var key in headers.Keys)
+
+            //Headers
+            if (headers != null)
+            {
+                foreach (var key in headers.Keys)
+                {
+                    request.AddHeader(key,
+                        headers[key].GetType().ToString().StartsWith("System.Collections.Generics.List")
+                            ? JsonConvert.SerializeObject(headers[key])
+                            : headers[key].ToString());
+                }
+            }
+            
+            //Parameters
+            if (parameters != null)
+            {
+                foreach (var key in parameters.Keys)
+                {
+                    request.AddParameter(key, parameters[key]);
+                }
+            }
+
+            //QueryParameters
+            if (queryParameters != null && headers != null)
             { 
-                if(headers[key].GetType().ToString().StartsWith("System.Collections.Generics.List"))
+                foreach (var key in queryParameters.Keys)
                 {
-                    request.AddHeader(key,JsonConvert.SerializeObject(headers[key]));
-                }
-                else
-                {
-                    request.AddHeader(key,headers[key].ToString());
-                }
-            }
-            foreach (var key in parameters.Keys)
-            {
-                request.AddParameter(key, parameters[key]);
-            }
-            foreach (var key in queryParameters.Keys)
-            {
-                if (headers[key].GetType().ToString().StartsWith("System.Collections.Generics.List"))
-                {
-                    request.AddQueryParameter(key, JsonConvert.SerializeObject(queryParameters[key]));
-                }
-                else
-                {
-                    request.AddQueryParameter(key, queryParameters[key].ToString());
+                    request.AddQueryParameter(key,
+                        headers[key].GetType().ToString().StartsWith("System.Collections.Generics.List")
+                            ? JsonConvert.SerializeObject(queryParameters[key])
+                            : queryParameters[key].ToString());
                 }
             }
+
             var response = client.Execute(request);
             return response.Content;
         }

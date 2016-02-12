@@ -1,12 +1,13 @@
 ﻿(function () {
     'use strict';
     var controllerId = 'dashboard';
-    angular.module('app').controller(controllerId, ['common', dashboard]);
+    angular.module('app').controller(controllerId, ['common', '$http', dashboard]);
 
-    function dashboard(common) {
+    function dashboard(common, $http) {
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
         var logSucces = getLogFn(controllerId, 'success');
+        var logError = getLogFn(controllerId, 'error');
 
         var vm = this;
         
@@ -43,7 +44,15 @@
 
         vm.executeRequest = function()
         {
-            logSucces('Pegar con backend de Rodrigo!!')
+            $http.get('/Requests').then(successCallback, errorCallback);
+
+            function successCallback() {
+                logSucces('EVerything Fine')
+            }
+
+            function errorCallback() {
+                logError('Smoething is wrong')   
+            }
         }
     }
 })();
