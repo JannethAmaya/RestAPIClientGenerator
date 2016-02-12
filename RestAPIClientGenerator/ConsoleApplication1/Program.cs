@@ -15,6 +15,7 @@ namespace ClassGeneratorSample
             gen.GenerateClasses();
             Console.ReadKey();
         }
+
         private static JsonClassGenerator Prepare(string json, string nameSpace, string targetFolder, string mainClass )
         {
             var gen = new JsonClassGenerator

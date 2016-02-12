@@ -1,24 +1,16 @@
 ﻿using RestClientPoc.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using RestAPIRequest;
+using Xamasoft.JsonClassGenerator;
+using Xamasoft.JsonClassGenerator.CodeWriters;
 
 namespace RestClientPoc.Controllers
 {
     [RoutePrefix("api/request")]
     public class ApiRequestController : ApiController
     {
-        //private readonly GenericApiCall _genericApiCall;
-
-        //public ApiRequestController()
-        //{
-        //    _genericApiCall = new GenericApiCall("http://jsonplaceholder.typicode.com/", "", "");
-        //}
-
         [Route("execute")]
         [HttpPost]
         public IHttpActionResult Execute(RequestViewModel request)
@@ -49,5 +41,42 @@ namespace RestClientPoc.Controllers
             return Ok(result);
 
         }
+
+        [Route("generate")]
+        [HttpPost]
+        public IHttpActionResult GenerateClasses([FromBody]string json)
+        {
+            const string targetFolder = @"C:\Projects\GeneratedClasses";
+            var gen = Prepare(json, "txtNameSpaceText", targetFolder, "SampleResponse");
+            gen.GenerateClasses();
+            
+            return Ok();
+        }
+
+        private static JsonClassGenerator Prepare(string json, string nameSpace, string targetFolder, string mainClass)
+        {
+            var gen = new JsonClassGenerator
+            {
+                Example = json,
+                InternalVisibility = true,
+                CodeWriter = new CSharpCodeWriter(),
+                ExplicitDeserialization = false,
+                Namespace = string.IsNullOrEmpty(nameSpace) ? null : nameSpace,
+                NoHelperClass = false,
+                SecondaryNamespace = null,
+                TargetFolder = targetFolder,
+                UseProperties = true,
+                MainClass = mainClass,
+                UsePascalCase = false,
+                UseNestedClasses = false,
+                ApplyObfuscationAttributes = false,
+                SingleFile = false,
+                ExamplesInDocumentation = false
+            };
+
+            return gen;
+        }
+
     }
+
 }

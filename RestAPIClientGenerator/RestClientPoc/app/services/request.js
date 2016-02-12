@@ -12,7 +12,9 @@
         var $apiUri = common.apiEndpoints.requestService;
 
         var service = {
-            executeRequest: executeRequest
+            executeRequest: executeRequest,
+            generateClasses: generateClasses,
+            downloadFile: downloadFile
         };
 
         return service;
@@ -20,7 +22,7 @@
 
         function executeRequest(request) {
             var deferred = $q.defer();
-            $http.post($apiUri + "execute", request).success(function (response) {
+            $http.post($apiUri + 'execute', request).success(function (response) {
                 deferred.resolve(response);
             }).error(function (err) {
                 log(err.message);
@@ -28,6 +30,22 @@
             });
 
             return deferred.promise;
+        }
+
+        function generateClasses(request) {
+            var deferred = $q.defer();
+            $http.post($apiUri + 'generate', request).success(function (response) {
+                deferred.resolve(response);
+            }).error(function (err) {
+                log(err.message);
+                deferred.reject(err);
+            });
+
+            return deferred.promise;
+        }
+
+        function downloadFile() {
+           $http.get('/File/Download').success(function() {});      
         }
             
     }

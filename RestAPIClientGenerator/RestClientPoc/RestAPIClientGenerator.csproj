@@ -254,7 +254,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ApiRequestController.cs" />
     <Compile Include="Controllers\FileController.cs" />
-    <Compile Include="Controllers\RequestsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -288,6 +287,10 @@
     <Folder Include="Views\Requests\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\JsonCSharpClassGeneratorLib\JsonClassGeneratorLib.csproj">
+      <Project>{7bef7eaa-de37-40fb-bd33-3def0685031f}</Project>
+      <Name>JsonClassGeneratorLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\RestAPIRequest\RestAPIRequest.csproj">
       <Project>{0f489fd7-25f8-4295-9f57-9f778d16b96d}</Project>
       <Name>RestAPIRequest</Name>

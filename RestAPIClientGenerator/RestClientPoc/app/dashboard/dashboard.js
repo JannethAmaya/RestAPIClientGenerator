@@ -55,12 +55,13 @@
                 }
 
             requestService.executeRequest(request).then(function (response) {
-                logSucces('Everything Fine')
+                    requestService.generateClasses(response).then(function(result) {
+                        requestService.downloadFile();
+                    });
             },
             function (err) {
                 logError('Smoething is wrong')
             });
-
         }
     }
 })();
