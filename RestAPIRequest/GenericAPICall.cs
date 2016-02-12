@@ -22,10 +22,11 @@ namespace RestAPIRequest
             _authenticator = new HttpBasicAuthenticator(username, password);
         }
 
-        public string Request(Method method, string endPoint, Dictionary<string,object> headers, Dictionary<string, object> parameters, Dictionary<string, object> queryParameters, string body) 
+        public string Request(HttpVerbs method, string endPoint, Dictionary<string,object> headers, Dictionary<string, object> parameters, Dictionary<string, object> queryParameters, string body) 
         {
+            var restSharpMethod = GetRestsharpMethod(method);
             var client = new RestClient(_baseUrl);
-            var request = new RestRequest(endPoint, method);
+            var request = new RestRequest(endPoint, restSharpMethod);
             client.Authenticator = _authenticator;
 
             //Headers
@@ -63,6 +64,47 @@ namespace RestAPIRequest
 
             var response = client.Execute(request);
             return response.Content;
+        }
+
+        private Method GetRestsharpMethod(HttpVerbs method)
+        {
+            Method result;
+
+            switch (method)
+            {
+                case HttpVerbs.Get:
+                    result = Method.GET;
+                    break;
+                case HttpVerbs.Post:
+                    result = Method.POST;
+                    break;
+                case HttpVerbs.Put:
+                    result = Method.PUT;
+                    break;
+                case HttpVerbs.Patch:
+                    result = Method.PATCH;
+                    break;
+                case HttpVerbs.Delete:
+                    result = Method.DELETE;
+                    break;
+                case HttpVerbs.Head:
+                    result = Method.HEAD;
+                    break;
+                default:
+                    result = Method.GET;
+                    break;
+            }
+
+            return result;
+        }
+        public enum HttpVerbs
+        {
+            Get = 1,
+            Post = 2,
+            Put = 3,
+            Patch = 4,
+            Delete = 5,
+            Head = 6
         }
     }
 }

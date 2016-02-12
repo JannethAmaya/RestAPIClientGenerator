@@ -24,10 +24,14 @@
         };
     });
 
-    commonModule.factory('common',
-        ['$q', '$rootScope', '$timeout', 'commonConfig', 'logger', common]);
+    commonModule.constant('apiEndpoints', {
+        requestService: '/api/request/'
+    });
 
-    function common($q, $rootScope, $timeout, commonConfig, logger) {
+    commonModule.factory('common',
+        ['$q', '$rootScope', '$timeout', '$http', 'commonConfig', 'logger','apiEndpoints', common]);
+
+    function common($q, $rootScope, $timeout, $http, commonConfig, logger, apiEndpoints) {
         var throttles = {};
 
         var service = {
@@ -35,13 +39,16 @@
             $broadcast: $broadcast,
             $q: $q,
             $timeout: $timeout,
+            $http: $http,
             // generic
             activateController: activateController,
             createSearchThrottle: createSearchThrottle,
             debouncedThrottle: debouncedThrottle,
             isNumber: isNumber,
             logger: logger, // for accessibility
-            textContains: textContains
+            textContains: textContains,
+            // constants
+            apiEndpoints : apiEndpoints
         };
 
         return service;

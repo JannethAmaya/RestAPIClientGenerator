@@ -1,27 +1,27 @@
 ﻿(function () {
     'use strict';
     var controllerId = 'dashboard';
-    angular.module('app').controller(controllerId, ['common', '$http', dashboard]);
+    angular.module('app').controller(controllerId, ['common', 'requestService', dashboard]);
 
-    function dashboard(common, $http) {
+    function dashboard(common, requestService) {
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
         var logSucces = getLogFn(controllerId, 'success');
         var logError = getLogFn(controllerId, 'error');
 
         var vm = this;
-        
+
         vm.headers = [];
         vm.parameters = [];
 
-        vm.endpoint = {verb : 'GET'}
+        vm.endpoint = { verb: 'GET' }
 
         activate();
 
         function activate() {
             var promises = [];
             common.activateController(promises, controllerId)
-                .then(function () {});
+                .then(function () { });
         }
 
         vm.addHeader = function (header) {
@@ -42,17 +42,25 @@
             vm.parameters.splice(index, 1);
         };
 
-        vm.executeRequest = function()
-        {
-            $http.get('/Requests').then(successCallback, errorCallback);
+        vm.executeRequest = function () {
+            var request =
+                {
+                    verb: vm.verb,
+                    endpoint: vm.endpoint.apiUrl,
+                    apiKey: vm.endpoint.apiKey,
+                    parameters: vm.parameters,
+                    headers: vm.headers,
+                    user: vm.username,
+                    password: vm.password
+                }
 
-            function successCallback() {
-                logSucces('EVerything Fine')
-            }
+            requestService.executeRequest(request).then(function (response) {
+                logSucces('Everything Fine')
+            },
+            function (err) {
+                logError('Smoething is wrong')
+            });
 
-            function errorCallback() {
-                logError('Smoething is wrong')   
-            }
         }
     }
 })();

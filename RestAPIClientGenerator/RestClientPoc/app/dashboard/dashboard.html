@@ -10,12 +10,12 @@
                             <div class="col-md-9">
                                 <div class="col-md-1" style="margin-right: 20px;">
                                     <select class="span2" name="method" id="method" ng-model="vm.endpoint.verb">
-                                        <option value="GET">GET</option>
-                                        <option value="POST">POST</option>
-                                        <option value="PUT">PUT</option>
-                                        <option value="PATCH">PATCH</option>
-                                        <option value="HEAD">HEAD</option>
-                                        <option value="DELETE">DELETE</option>
+                                        <option value="1">GET</option>
+                                        <option value="2">POST</option>
+                                        <option value="3">PUT</option>
+                                        <option value="4">PATCH</option>
+                                        <option value="6">HEAD</option>
+                                        <option value="5">DELETE</option>
                                     </select>
                                 </div>
                                 <div class="col-md-8">
@@ -84,6 +84,12 @@
                             </div>
                             <div class="col-md-1" style="margin-left: -150px; padding-top: 5px;">
                                 <a class="button-primary" ng-click="vm.removeParameter($index)"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label text-left" for="parameterName">Api Key/Id:</label>
+                            <div class="col-md-4" style="margin-left: 15px;">
+                                <input id="apiKey" ng-model="vm.endpoint.apiKey" name="apiKey" type="text" placeholder="api key/id" class="form-control input-md">
                             </div>
                         </div>
                         <div class="form-group">
