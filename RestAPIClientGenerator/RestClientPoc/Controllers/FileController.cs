@@ -16,11 +16,11 @@ namespace RestClientPoc.Controllers
             using (var zip = new ZipFile())
             {
                 zip.AddDirectory(@"C:\Projects\GeneratedClasses");
-                zip.Save(String.Format("@C:/Projects/GeneratedClasses/{0}",fileName));
+                zip.Save(String.Format(@"C:/Projects/GeneratedClasses/{0}",fileName));
             }
 
             // Read bytes from disk
-            var fileBytes = System.IO.File.ReadAllBytes(String.Format("@C:/Projects/GeneratedClasses/{0}", fileName));
+            var fileBytes = System.IO.File.ReadAllBytes(String.Format(@"C:/Projects/GeneratedClasses/{0}", fileName));
             
 
             // Return bytes as stream for download
