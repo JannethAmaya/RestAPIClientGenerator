@@ -18,7 +18,7 @@ namespace RestClientPoc.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var url = new Uri(request.ApiUrl);
-            var apiCall = new GenericApiCall($"{url.Scheme}://{url.Host}", request.UserName, request.Password);
+            var apiCall = new GenericApiCall(String.Format("{0}://{1}",url.Scheme,url.Host), request.UserName, request.Password);
 
             var headers = new Dictionary<string, object>();
             var parameters = new Dictionary<string, object>();
@@ -38,8 +38,8 @@ namespace RestClientPoc.Controllers
                     parameters.Add(p.Name, p.Value);
                 }
             });
-            var result = apiCall.Request(request.Verb, $"{url.LocalPath}{url.Query}", headers, parameters, null, string.Empty);
-            var classMethod = Request(request.Verb, $"{url.Scheme}://{url.Host}", $"{url.LocalPath}{url.Query}", headers, parameters, null, string.Empty, request.RestClient.MethodName, request.RestClient.Namespace, request.RestClient.ResultClassName, request.Password != null || request.UserName != null, request.UserName, request.Password);
+            var result = apiCall.Request(request.Verb, String.Format("{0}{1}", url.LocalPath,url.Query), headers, parameters, null, string.Empty);
+            var classMethod = Request(request.Verb, String.Format("{0}://{1}",url.Scheme,url.Host), String.Format("{0}{1}", url.LocalPath,url.Query), headers, parameters, null, string.Empty, request.RestClient.MethodName, request.RestClient.Namespace, request.RestClient.ResultClassName, request.Password != null || request.UserName != null, request.UserName, request.Password);
             return Ok(result);
 
         }
@@ -79,7 +79,7 @@ namespace RestClientPoc.Controllers
             return gen;
         }
 
-        public string Request(RestAPIRequest.GenericApiCall.HttpVerbs method, string baseURL, string endPoint, Dictionary<string, object> headers, Dictionary<string, object> parameters, Dictionary<string, object> queryParameters, string body, string methodName, string nameSpace, string mainClassName, bool authentication, string username, string password)
+        public string Request(GenericApiCall.HttpVerbs method, string baseURL, string endPoint, Dictionary<string, object> headers, Dictionary<string, object> parameters, Dictionary<string, object> queryParameters, string body, string methodName, string nameSpace, string mainClassName, bool authentication, string username, string password)
         {
             //Create method call
             var sb = new StringBuilder("public " + mainClassName + " " + methodName + "(");
@@ -148,7 +148,7 @@ namespace RestClientPoc.Controllers
                 sb.AppendLine("    var APICall = new GenericAPICall(baseUrl, null);");
             }
             sb.AppendLine("var json = APICall.Request(method, endPoint, headers, parameters, queryParameters, \"\");");
-            sb.AppendLine(String.Format("    return JsonConvert.DeserializeObject<{0}>(json);",responseType));
+            sb.AppendLine(String.Format("    return JsonConvert.DeserializeObject<{0}>(json);",mainClassName));
             sb.AppendLine("}");
 
             return sb.ToString();
