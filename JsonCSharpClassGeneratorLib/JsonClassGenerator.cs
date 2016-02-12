@@ -51,7 +51,16 @@ namespace Xamasoft.JsonClassGenerator
 
 
             var writeToDisk = TargetFolder != null;
-            if (writeToDisk && !Directory.Exists(TargetFolder)) Directory.CreateDirectory(TargetFolder);
+            if (writeToDisk && !Directory.Exists(TargetFolder))
+            {
+                Directory.CreateDirectory(TargetFolder);
+            }
+            else
+            {
+                Directory.Delete(TargetFolder);
+                Directory.CreateDirectory(TargetFolder);
+            }
+                
 
 
             JObject[] examples;
