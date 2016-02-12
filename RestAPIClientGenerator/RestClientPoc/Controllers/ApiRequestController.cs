@@ -39,7 +39,7 @@ namespace RestClientPoc.Controllers
                 }
             });
             var result = apiCall.Request(request.Verb, $"{url.LocalPath}{url.Query}", headers, parameters, null, string.Empty);
-            var classMethod = Request(request.Verb, $"{url.Scheme}://{url.Host}", $"{url.LocalPath}{url.Query}", headers, parameters, null, string.Empty, request.MethodName, string.Empty, string.Empty, request.Password != null || request.UserName != null, request.UserName, request.Password);
+            var classMethod = Request(request.Verb, $"{url.Scheme}://{url.Host}", $"{url.LocalPath}{url.Query}", headers, parameters, null, string.Empty, request.RestClient.MethodName, request.RestClient.Namespace, request.RestClient.ResultClassName, request.Password != null || request.UserName != null, request.UserName, request.Password);
             return Ok(result);
 
         }
@@ -79,10 +79,10 @@ namespace RestClientPoc.Controllers
             return gen;
         }
 
-        public string Request(RestAPIRequest.GenericApiCall.HttpVerbs method, string baseURL, string endPoint, Dictionary<string, object> headers, Dictionary<string, object> parameters, Dictionary<string, object> queryParameters, string body, string methodName, string nameSpace, string responseType, bool authentication, string username, string password)
+        public string Request(RestAPIRequest.GenericApiCall.HttpVerbs method, string baseURL, string endPoint, Dictionary<string, object> headers, Dictionary<string, object> parameters, Dictionary<string, object> queryParameters, string body, string methodName, string nameSpace, string mainClassName, bool authentication, string username, string password)
         {
             //Create method call
-            var sb = new StringBuilder("public " + responseType + " " + methodName + "(");
+            var sb = new StringBuilder("public " + mainClassName + " " + methodName + "(");
             var sbHeaders = new StringBuilder();
             var sbParameters = new StringBuilder();
             var sbQueryParameters = new StringBuilder();

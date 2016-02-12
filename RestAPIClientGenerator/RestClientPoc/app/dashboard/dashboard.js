@@ -14,7 +14,9 @@
         vm.headers = [];
         vm.parameters = [];
 
-        vm.endpoint = { verb: 'GET' }
+        vm.restClient = {};
+
+        vm.endpoint = { verb: 1 }
 
         activate();
 
@@ -52,7 +54,8 @@
                     parameters: vm.parameters,
                     headers: vm.headers,
                     user: vm.username,
-                    password: vm.password
+                    password: vm.password,
+                    restClient : vm.restClient
                 }
 
             requestService.executeRequest(request).then(function (response) {

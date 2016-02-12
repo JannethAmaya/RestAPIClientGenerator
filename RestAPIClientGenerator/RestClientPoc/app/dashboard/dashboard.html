@@ -4,6 +4,7 @@
             <div class="col-md-12">
                 <form class="form-horizontal">
                     <fieldset>
+                        <legend>Input</legend>
                         <div class="form-group">
                             <label class="col-md-3 control-label text-left" for="textinput">Endpoint:</label>
 
@@ -20,7 +21,6 @@
                                 </div>
                                 <div class="col-md-8">
                                     <input id="apiUrl" ng-model="vm.apiUrl" name="apiUrl" type="text" placeholder="type api endpoint here" class="form-control input-md pull-left">
-                                    <input id="methodName" ng-model="vm.methodName" name="methodName" type="text" placeholder="method name" class="pull-right form-control input-md" style="width: 35%;">
                                 </div>
                             </div>
                         </div>
@@ -86,10 +86,26 @@
                                 <a class="button-primary" ng-click="vm.removeParameter($index)"><i class="fa fa-times"></i></a>
                             </div>
                         </div>
+                    </fieldset>
+                    
+                    <fieldset>
+                       <legend>Output</legend>
                         <div class="form-group">
-                            <label class="col-md-4 control-label text-left" for="parameterName">Api Key/Id:</label>
+                            <label class="col-md-4 control-label text-left" for="namespace">Namespace:</label>
                             <div class="col-md-4" style="margin-left: 15px;">
-                                <input id="apiKey" ng-model="vm.endpoint.apiKey" name="apiKey" type="text" placeholder="api key/id" class="form-control input-md">
+                                <input id="namespace" ng-model="vm.restClient.namespace" name="namespace" type="text" placeholder="namespace" class="form-control input-md">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label text-left" for="resultClassName">Class:</label>
+                            <div class="col-md-4" style="margin-left: 15px;">
+                                <input id="resultClassName" ng-model="vm.restClient.resultClassName" name="resultClassName" type="text" placeholder="result class name" class="form-control input-md">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label text-left" for="resultClassName">Method:</label>
+                            <div class="col-md-4" style="margin-left: 15px;">
+                                <input id="methodName" ng-model="vm.restClient.methodName" name="methodName" type="text" placeholder="method name" class="form-control input-md">
                             </div>
                         </div>
                         <div class="form-group">
