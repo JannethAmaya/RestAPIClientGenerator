@@ -45,7 +45,7 @@
         }
 
         function downloadFile() {
-           $http.get('/File/Download').success(function() {});      
+            return window.location.href = 'File/Download';
         }
             
     }
