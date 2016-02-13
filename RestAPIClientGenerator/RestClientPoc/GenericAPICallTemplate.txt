@@ -72,22 +72,22 @@ namespace |NAMESPACE|
 
             switch (method)
             {
-                case HttpVerbs.Get:
+                case HttpVerbs.GET:
                     result = Method.GET;
                     break;
-                case HttpVerbs.Post:
+                case HttpVerbs.POST:
                     result = Method.POST;
                     break;
-                case HttpVerbs.Put:
+                case HttpVerbs.PUT:
                     result = Method.PUT;
                     break;
-                case HttpVerbs.Patch:
+                case HttpVerbs.PATCH:
                     result = Method.PATCH;
                     break;
-                case HttpVerbs.Delete:
+                case HttpVerbs.DELETE:
                     result = Method.DELETE;
                     break;
-                case HttpVerbs.Head:
+                case HttpVerbs.HEAD:
                     result = Method.HEAD;
                     break;
                 default:
@@ -99,12 +99,12 @@ namespace |NAMESPACE|
         }
         public enum HttpVerbs
         {
-            Get = 1,
-            Post = 2,
-            Put = 3,
-            Patch = 4,
-            Delete = 5,
-            Head = 6
+            GET = 1,
+            POST = 2,
+            PUT = 3,
+            PATCH = 4,
+            DELETE = 5,
+            HEAD = 6
         }
     }
 }

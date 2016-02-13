@@ -41,7 +41,7 @@ namespace RestClientPoc.Controllers
                     parameters.Add(p.Name, p.Value);
                 }
             });
-
+            
             var s = url.Query.Replace("?","").Split('&');
             var queryParameters = s.Select(x => x.Split('=')).ToDictionary<string[], string, object>(value => value[0], value => value[1]);
 
@@ -69,7 +69,7 @@ namespace RestClientPoc.Controllers
             var gen = new JsonClassGenerator
             {
                 Example = json,
-                InternalVisibility = true,
+                InternalVisibility = false,
                 CodeWriter = new CSharpCodeWriter(),
                 ExplicitDeserialization = false,
                 Namespace = string.IsNullOrEmpty(nameSpace) ? null : nameSpace,
@@ -115,36 +115,46 @@ namespace RestClientPoc.Controllers
                     {
                         sb.Append(", ");
                     }
+                    first = false;
                     sb.AppendFormat(" object {0}", key);
                     sbHeaders.AppendLine(String.Format("headers.Add(\"{0}\", {0});", key));
                 }
             }
             if(parameters!=null)
             {
-                first = true;
                 foreach (var key in parameters.Keys)
                 {
                     if (!first)
                     {
                         sb.Append(", ");
                     }
+                    first = false;
                     sb.AppendFormat(" object {0}", key);
                     sbParameters.AppendLine(String.Format("parameters.Add(\"{0}\", {0});", key));
                 }
             }
             if(queryParameters!=null)
             {
-                first = true;
                 foreach (var key in queryParameters.Keys)
                 {
                     if (!first)
                     {
                         sb.Append(", ");
                     }
+                    first = false;
                     sb.AppendFormat(" object {0}", key);
                     sbQueryParameters.AppendLine(String.Format("queryParameters.Add(\"{0}\", {0});", key));
                 }
             }
+            if (authentication)
+            {
+                if (!first)
+                {
+                    sb.Append(", ");
+                }
+                sb.Append(" string username, string password ");
+            }
+
             sb.Append(")");
             sb.AppendLine("    {");
             sb.AppendLine(String.Format("        string baseUrl=\"{0}\";", baseURL));
@@ -158,14 +168,14 @@ namespace RestClientPoc.Controllers
             sb.Append(sbParameters.ToString());
             sb.AppendLine();
             sb.Append(sbQueryParameters.ToString());
-            sb.AppendLine(String.Format("        var method = {0};", method.ToString()));
+            sb.AppendLine(String.Format("        var method = GenericApiCall.HttpVerbs.{0};", method.ToString().ToUpper()));
             if (authentication)
             {
-                sb.AppendLine("        var APICall = new GenericAPICall(baseUrl, username, password);");
+                sb.AppendLine("        var APICall = new GenericApiCall(baseUrl, username, password);");
             }
             else
             {
-                sb.AppendLine("        var APICall = new GenericAPICall(baseUrl, null);");
+                sb.AppendLine("        var APICall = new GenericApiCall(baseUrl, null);");
             }
             sb.AppendLine("var json = APICall.Request(method, endPoint, headers, parameters, queryParameters, \"\");");
             sb.AppendLine(String.Format("        return JsonConvert.DeserializeObject<{0}>(json);",mainClassName));
