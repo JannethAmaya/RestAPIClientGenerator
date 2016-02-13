@@ -77,6 +77,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CreateProjectFile\CreateProjectFileLib.csproj">
+      <Project>{96775c01-cd2f-4510-92ed-8958ff1d9f75}</Project>
+      <Name>CreateProjectFileLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

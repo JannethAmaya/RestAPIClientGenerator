@@ -10,7 +10,7 @@ using System.IO;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using Xamasoft.JsonClassGenerator.CodeWriters;
-
+using CreateCsprojFileLib;
 
 namespace Xamasoft.JsonClassGenerator
 {
@@ -116,6 +116,13 @@ namespace Xamasoft.JsonClassGenerator
                             Directory.CreateDirectory(folder);
                         }
                         WriteClassesToFile(Path.Combine(folder, (UseNestedClasses && !type.IsRoot ? MainClass + "." : string.Empty) + type.AssignedName + CodeWriter.FileExtension), new[] { type });
+                        List<string> listClasses = new List<string>();
+                        DirectoryInfo directory = new DirectoryInfo(TargetFolder);
+                        foreach (FileInfo file in directory.GetFiles())
+                        {
+                            listClasses.Add(file.Name);
+                        }
+                        ProjectFileGenerator.CreateProjectFile(directory.FullName + @"\ApiClient", "Debug", "AnyCPU", new string[] { "System", "System.Core", "System.Configuration" }, listClasses.ToArray());
                     }
                 }
             }

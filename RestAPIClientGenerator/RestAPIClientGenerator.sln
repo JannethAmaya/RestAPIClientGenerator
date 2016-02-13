@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonClassGeneratorLib", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassGeneratorSample", "ConsoleApplication1\ClassGeneratorSample.csproj", "{099E8B6F-60AC-4D9A-AA00-D56B28C8CFD4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateProjectFileLib", "..\CreateProjectFile\CreateProjectFileLib.csproj", "{96775C01-CD2F-4510-92ED-8958FF1D9F75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{099E8B6F-60AC-4D9A-AA00-D56B28C8CFD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{099E8B6F-60AC-4D9A-AA00-D56B28C8CFD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{099E8B6F-60AC-4D9A-AA00-D56B28C8CFD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96775C01-CD2F-4510-92ED-8958FF1D9F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96775C01-CD2F-4510-92ED-8958FF1D9F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96775C01-CD2F-4510-92ED-8958FF1D9F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96775C01-CD2F-4510-92ED-8958FF1D9F75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
