@@ -214,8 +214,16 @@ namespace RestClientPoc.Controllers
                 Directory.CreateDirectory(targetFolder);
             }
 
+            TextWriter tw = new StreamWriter(targetFolder + @"\Class1.cs");
+
+            // write a line of text to the file
+            tw.Write(classMethod);
+
+            // close the stream
+            tw.Close();
+
             // Write the text to a new file named "WriteFile.txt".
-            File.WriteAllText(String.Format(@"{0}\Class1.txt", targetFolder),classMethod);
+            //File.WriteAllText(String.Format(@"{0}\Class1.txt", targetFolder),classMethod);
         }
     }
 
