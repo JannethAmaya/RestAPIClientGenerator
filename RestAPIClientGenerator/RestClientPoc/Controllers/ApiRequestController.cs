@@ -8,13 +8,14 @@ using Xamasoft.JsonClassGenerator;
 using Xamasoft.JsonClassGenerator.CodeWriters;
 using System.Text;
 using System.IO;
-using WebGrease.Css.Extensions;
 
 namespace RestClientPoc.Controllers
 {
     [RoutePrefix("api/request")]
     public class ApiRequestController : ApiController
     {
+        const string targetFolder = @"C:\Projects\GeneratedClasses";
+
         [Route("execute")]
         [HttpPost]
         public IHttpActionResult Execute(RequestViewModel request)
@@ -25,6 +26,7 @@ namespace RestClientPoc.Controllers
 
             var headers = new Dictionary<string, object>();
             var parameters = new Dictionary<string, object>();
+            var queryParameters = new Dictionary<string, object>();
 
             request.Headers.ForEach(h =>
             {
@@ -41,14 +43,19 @@ namespace RestClientPoc.Controllers
                     parameters.Add(p.Name, p.Value);
                 }
             });
-            
-            var s = url.Query.Replace("?","").Split('&');
-            var queryParameters = s.Select(x => x.Split('=')).ToDictionary<string[], string, object>(value => value[0], value => value[1]);
+
+            if (url.Query != string.Empty)
+            {
+                var s = url.Query.Replace("?", "").Split('&');
+                queryParameters = s.Select(x => x.Split('=')).ToDictionary<string[], string, object>(value => value[0], value => value[1]);
+            }
 
             var result = apiCall.Request(request.Verb, String.Format("{0}{1}", url.LocalPath,url.Query), headers, parameters, null, string.Empty);
             var classMethod = Request(request.Verb, String.Format("{0}://{1}",url.Scheme,url.Host), String.Format("{0}{1}", url.LocalPath,url.Query), headers, parameters, queryParameters, string.Empty, request.RestClient.MethodName, request.RestClient.Namespace, request.RestClient.ResultClassName, request.Password != null || request.UserName != null, request.UserName, request.Password);
             var classGenericCall = CreateGenericAPICall(request.RestClient.Namespace);
             
+            WriteFiles(classMethod, classGenericCall);
+
             return Ok(result);
 
         }
@@ -57,7 +64,6 @@ namespace RestClientPoc.Controllers
         [HttpPost]
         public IHttpActionResult GenerateClasses([FromBody]string json)
         {
-            const string targetFolder = @"C:\Projects\GeneratedClasses";
             var gen = Prepare(json, "txtNameSpaceText", targetFolder, "SampleResponse");
             gen.GenerateClasses();
             
@@ -190,6 +196,26 @@ namespace RestClientPoc.Controllers
             var context =System.Web.HttpContext.Current;
             var classTemplate = File.ReadAllText(context.Server.MapPath(@"~/GenericAPICallTemplate.txt"));
             return classTemplate.Replace("|NAMESPACE|", nameSpace);
+        }
+
+        private void WriteFiles(string classMethod, string classGenericCall)
+        {
+            if (!Directory.Exists(targetFolder))
+            {
+                Directory.CreateDirectory(targetFolder);
+            }
+            else
+            {
+                DirectoryInfo directory = new DirectoryInfo(targetFolder);
+                foreach (FileInfo file in directory.GetFiles())
+                {
+                    file.Delete();
+                }
+                Directory.CreateDirectory(targetFolder);
+            }
+
+            // Write the text to a new file named "WriteFile.txt".
+            File.WriteAllText(String.Format(@"{0}\Class1.txt", targetFolder),classMethod);
         }
     }
 
